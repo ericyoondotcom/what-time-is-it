@@ -5,7 +5,7 @@ export default class Clock extends React.Component {
 
     constructor(props){
         super(props);
-        this.state = {dark: false, popupStage: 4};
+        this.state = {fgColor: "black", bgColor: "white", popupStage: 4, blink: false};
         let url = new URL(window.location.href);
         this.state.time = url.searchParams.get("time");
         this.state.timezone = url.searchParams.get("timezone");
@@ -17,6 +17,9 @@ export default class Clock extends React.Component {
             window.location.replace("apiCall?timezone=" + this.state.timezone);
             return;
         }
+        setInterval(() => {
+            this.setState({blink: !this.state.blink});
+        }, 1000);
     }
 
     popupTitles = [
@@ -45,7 +48,7 @@ export default class Clock extends React.Component {
 
     render(){
         return (
-            <div style={{textAlign: "center", height: "100vh", color: (this.state.dark ? "white" : "black"), backgroundColor: (this.state.dark ? "black" : "white")}}>
+            <div style={{textAlign: "center", height: "100vh", color: this.state.fgColor, backgroundColor: this.state.bgColor}}>
                 <SweetAlert
                     show={this.state.popupStage >= 0}
                     title={this.popupTitles[this.state.popupStage]}
@@ -55,9 +58,73 @@ export default class Clock extends React.Component {
                 />
 
                 <button onClick={() => {
-                    this.setState({dark: !this.state.dark});
+                    this.setState({fgColor: (this.state.fgColor == "black" ? "white" : "black"), bgColor: (this.state.fgColor == "black" ? "black" : "white")});
                 }}>Toggle dark mode</button>
-                
+                <div style={{color: (this.state.blink ? "red" : "white"), backgroundColor: (this.state.blink ? "white" : "red"), width: "50vw", margin: "15px auto 0 auto", padding: "1em"}}>
+                    <h1>New feature announcement!</h1>
+                    <h2 style={{fontSize: "16px"}}>Our users on Reddit liked Dark Mode so much, in version 1.5, we now have custom CSS options!!!1!!1</h2>
+                    <table style={{tableLayout: "fixed"}}>
+                        <tr>
+                            <td style={{width: "50%"}}>
+                                <div style={{border: "yellow 10px dashed"}}>
+                                    <h2>Custom Text Color</h2>
+                                    <h3>Select color via HTML5 color picker</h3>
+                                    <input type="color" onChange={(e) => {
+                                        this.setState({fgColor: e.target.value});
+                                    }}></input>
+                                    <h3>Select color via Javascript <code>prompt()</code></h3>
+                                    <button style={{border: 0, background: "black", color: "white", padding: "5px"}} onClick={
+                                        () => {
+                                            let resp = prompt("Enter a hex code or HTML5 color name and click submit.");
+                                            if(resp == null || resp == ""){
+                                                alert("WHY DIDN'T YOU TYPE ANYTHING YOU HACKER?!");
+                                                return;
+                                            }
+                                            if(resp.match(/^[A-Fa-f0-9]+$/).length !== 0 && !resp.includes("#")) resp = "#" + resp;
+                                            this.setState({fgColor: resp});
+                                        }
+                                    }>Select color</button>
+                                    <h3>Select color via input box</h3>
+                                    <input type="text" onChange={(e) => {
+                                        if(e.target.value.length > 0 && e.target.value[0] != "#"){
+                                            e.target.value = "#" + e.target.value;
+                                        }
+                                        this.setState({fgColor: e.target.value});
+                                    }}></input>
+                                </div>
+                            </td>
+                            <td style={{width: "50%"}}>
+                                <div style={{border: "yellow 10px dashed"}}>
+                                    <h2>Custom Background Color</h2>
+                                    <h3>Select color via HTML5 color picker</h3>
+                                    <input type="color" onChange={(e) => {
+                                        this.setState({bgColor: e.target.value});
+                                    }}></input>
+                                    <h3>Select color via Javascript <code>prompt()</code></h3>
+                                    <button style={{border: 0, background: "black", color: "white", padding: "5px"}} onClick={
+                                        () => {
+                                            let resp = prompt("Enter a hex code or HTML5 color name and click submit.");
+                                            if(resp == null || resp == ""){
+                                                alert("WHY DIDN'T YOU TYPE ANYTHING YOU HACKER?!");
+                                                return;
+                                            }
+                                            if(resp.match(/^[A-Fa-f0-9]+$/).length !== 0 && !resp.includes("#")) resp = "#" + resp;
+                                            this.setState({bgColor: resp});
+                                        }
+                                    }>Select color</button>
+                                    <h3>Select color via input box</h3>
+                                    <input type="text" onChange={(e) => {
+                                        if(e.target.value.length > 0 && e.target.value[0] != "#"){
+                                            e.target.value = "#" + e.target.value;
+                                        }
+                                        this.setState({bgColor: e.target.value});
+                                    }}></input>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    
+                </div>
                 <h1 style={{fontSize: "100px"}}>It was {this.state.time} at the time you loaded this page</h1>
                 <h2 style={{fontSize: "50px"}}>in the timezone {this.state.timezone}</h2>
             </div>

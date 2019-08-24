@@ -49,7 +49,7 @@ export default class ChooseTimezone extends React.Component {
                 <h1>To support our users on devices with small screens, please input your <b>timezone</b> with the number pad below. A list of timezones is available <a href="http://worldtimeapi.org/timezones">here</a>.</h1>
                 <h2>Click/tap once for the first letter displayed, twice for the second, etc. Capitalization matters!</h2>
                 <div style={{marginTop: "100px"}} />
-                <h1 style={{fontFamily: "'Monaco', monospace", backgroundColor: "black", color: "#00FF00", width: "30vw", margin: "0 auto"}}>{this.state.text == "" ? "Type a timezone..." : this.state.text}</h1>
+                <h1 style={{fontFamily: "'Monaco', monospace", backgroundColor: "black", color: "#00FF00", width: "30vw", margin: "0 auto", borderRadius: "1em"}}>{this.state.text == "" ? "Type a timezone..." : this.state.text}</h1>
                 <button disabled={this.state.text == ""} onClick={() => {
                     window.location.replace("apiCall?timezone=" + this.state.text);
                 }}>Submit</button>

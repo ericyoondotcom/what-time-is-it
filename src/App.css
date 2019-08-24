@@ -1,3 +1,13 @@
 button {
   font-size: 30px;
+  background-image: radial-gradient(#730020, #2B0040);
+  border-color: #FEC400;
+  color: white;
+  border-width: 7px;
+  border-radius: 2em;
+  padding: .5em;
+}
+
+body {
+  font-family: "Muli", "Oxygen", "Lato", sans-serif;
 }

@@ -21,7 +21,7 @@ export default class ApiCall extends React.Component {
                 <p>In your personal computer's shell, enter the command: <code>curl "{this.state.endpoint}"</code>, and paste the data in the input box below.</p>
                 <h2>Paste Data Here</h2>
                 <input height="300" placeholder="Paste your data here, then press the button below" onChange={(e) => {
-                    this.state.text = e.target.value;
+                    this.setState({text: e.target.value});
                 }}></input>
                 <br />
                 <button onClick={
